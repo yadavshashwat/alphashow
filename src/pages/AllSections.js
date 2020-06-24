@@ -531,27 +531,20 @@ class AllSections extends Component {
     var Path = window.location.pathname.split("/")
     var textPath = null;
     breadCrumbElement = Path.map((row, index) => {
-      if (index > 2 && index < (Path.length - 1)) {
-        if (['question-bank', 'test-bank'].indexOf(Path[index - 1]) >= 0) {
-          textPath = decodeURIComponent(Path[index])
-        } else {
-          textPath = changeCase.titleCase(Path[index])
-        }
+      if (index > 0 && index < (Path.length - 1)) {
         var link = (Path.slice(0, index + 1).join("/")) + "/"
+        textPath = changeCase.titleCase(Path[index])
+        // console.log(link)
         try {
-          if (['question-bank', 'test-bank'].indexOf(Path[index - 1]) >= 0) {
-            return (<BreadcrumbsItem key={index} iconBefore={pathIcon['folder']} href={link} text={textPath} />);
-          } else {
             return (<BreadcrumbsItem key={index} iconBefore={pathIcon[Path[index]]} href={link} text={textPath} />);
-          }
         }
         catch (err) {
           return (<BreadcrumbsItem key={index} href={link} text={textPath} />);
         }
-      } else {
-        return null;
-      }
-    });
+
+      } 
+    }
+    );
 
     let orderByIcon = <SortIconContainer><ArrowUpCircleIcon></ArrowUpCircleIcon></SortIconContainer>
     if (this.state.orderBy === "asc") {
