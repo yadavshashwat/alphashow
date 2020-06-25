@@ -39,7 +39,7 @@ import ContentWrapper from '../components/ContentWrapper';
 // Other Packages
 import ReactPaginate from 'react-paginate';
 import styled from "styled-components";
-import Cookies from 'universal-cookie';
+// import Cookies from 'universal-cookie';
 var changeCase = require("change-case");
 
 // api url path
@@ -614,7 +614,7 @@ class AllSections extends Component {
 
         {
           key: row.id,
-          content: <Link to={row.path}>{row.name == row.sub_section_name ? row.name : row.name + ' - ' + row.sub_section_name}</Link>
+          content: <Link to={row.path}>{row.name === row.sub_section_name ? row.name : row.name + ' - ' + row.sub_section_name}</Link>
         },
         {
           key: row.id,
@@ -646,7 +646,7 @@ class AllSections extends Component {
           trigger="Options"
           triggerType="button"
           shouldFlip={true}
-          role="bottom"
+          // role="bottom"
         >
           <DropdownItemGroup>
             

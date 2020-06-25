@@ -38,6 +38,11 @@ ul.pagination {
 
 }
 
+.companyImage{
+    height: 55px;
+    
+}
+
 .pagination li {
     border-radius: 3px;
     border-width: 0px;

@@ -5,7 +5,7 @@ import Nav, {
   AkNavigationItem,
 } from '@atlaskit/navigation';
 
-import companyLogo from "../images/CareerAnna_black.png"
+import companyLogo from "../images/alpha.png"
 
 import Routes from "../routing/RoutesList"
 
