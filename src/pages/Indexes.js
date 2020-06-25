@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 // Redux dispatch
 import { bindActionCreators } from "redux";
 import flag from "../redux/actions/flag";
-import section from "../redux/actions/section";
+// import section from "../redux/actions/section";
 
 
 // Atlaskit Packages
@@ -21,7 +21,7 @@ import { CheckboxSelect } from '@atlaskit/select';
 import TextField from '@atlaskit/textfield';
 import { Grid, GridColumn } from '@atlaskit/page';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
-
+import Lozenge from '@atlaskit/lozenge';
 import DynamicTable from '@atlaskit/dynamic-table';
 
 //Icons
@@ -38,7 +38,7 @@ import styled from "styled-components";
 var changeCase = require("change-case");
 
 // api url path
-var url = "/crud_exchange/";
+var url = "/crud_index/";
 
 
 const itemOptions = [
@@ -49,7 +49,7 @@ const itemOptions = [
   {'value':100,'label':'100 Items/Page'}
 ]
 
-class AllSections extends Component {
+class Indexes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,8 +68,8 @@ class AllSections extends Component {
       orderBy: "asc",
 
       searchIcon: true,
-      countryOptions: [],
-      countryValue: [],
+      exchangeOptions: [],
+      exchangeValue: [],
       searchValue: "",
     };
   }
@@ -95,7 +95,7 @@ class AllSections extends Component {
       search: this.state.searchValue,
       page_num: 1,
       page_size: this.state.pageSize.value,
-      exchange_country: (this.state.countryValue).map(x => x['value']).join(","),
+      exchange: (this.state.exchangeValue).map(x => x['value']).join(","),
     };
     let payload = Object.assign({}, payloadData, obj);
     // console.log(payload, "Payload");
@@ -133,10 +133,10 @@ class AllSections extends Component {
   };
 
 
-  handleCountryChange = value => {
+  handleExchangeChange = value => {
     const data = (value).map(x => x['value']).join(",");
-    this.setState({ countryValue: value, pageNum: 1 }, () => {
-      this.applyFilter({ test_id: data, page_num: 1 });
+    this.setState({ exchangeValue: value, pageNum: 1 }, () => {
+      this.applyFilter({ exchange: data, page_num: 1 });
     });
   };
 
@@ -246,28 +246,28 @@ class AllSections extends Component {
         {
           key: "code",
           content: "Code",
-          width: 15,
-          isSortable: false,
-          shouldTruncate: false
-        },
-        {
-          key: "country",
-          content: "Country",
           width: 20,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "currency",
-          content: "Currency",
-          width: 15,
+          key: "exchange",
+          content: "Exchange",
+          width: 20,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "timezone",
-          content: "Timezone",
+          key: "price_date_range",
+          content: "Price Date Range",
           width: 20,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "return_update_date",
+          content: "Return Update Date",
+          width: 10,
           isSortable: false,
           shouldTruncate: false
         },
@@ -278,27 +278,26 @@ class AllSections extends Component {
     rowRenderElement = this.state.data.map((row, index) => ({
       key: `row.id`,
       cells: [
-
         {
           key: row.id,
-          content: row.exchange_name
+          content: changeCase.titleCase(row.name)
         },
         {
           key: row.id,
-          content: row.exchange_code
+          content: row.ticker
         },
         {
           key: row.id,
-          content: row.exchange_country
+          content: <Lozenge appearance="inprogress">{row.exchange}</Lozenge> 
         },
         {
           key: row.id,
-          content: row.exchange_currency
+          content: 'NSE: ' + row.min_ticker_date + " - " +row.last_ticker_date 
         },
         {
           key: row.id,
-          content: row.exchange_timezone
-        },       
+          content: row.return_update_date
+        },
 
       ]
     }
@@ -333,14 +332,14 @@ class AllSections extends Component {
           </GridColumn>
           <GridColumn medium={4}>
             <div className="field-div">
-              <span className="field-label">Country</span>
+              <span className="field-label">Exchange</span>
               <CheckboxSelect
                 className="checkbox-select"
                 classNamePrefix="select"
-                options={this.state.countryOptions}
-                placeholder="India etc."
-                onChange={this.handleCountryChange}
-                value={this.state.countryValue}
+                options={this.state.exchangeOptions}
+                placeholder="NSE etc."
+                onChange={this.handleExchangeChange}
+                value={this.state.exchangeValue}
               />
             </div>
           </GridColumn>
@@ -425,18 +424,20 @@ class AllSections extends Component {
 
 function mapStateToProps(store) {
   return {
-    ...store.section,
+    // ...store.section,
   };
 }
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...section, ...flag }, dispatch)
+    actions: bindActionCreators({ 
+      // ...section, 
+      ...flag }, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AllSections);
+)(Indexes);

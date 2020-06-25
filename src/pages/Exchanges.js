@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 // Redux dispatch
 import { bindActionCreators } from "redux";
 import flag from "../redux/actions/flag";
-import section from "../redux/actions/section";
+// import section from "../redux/actions/section";
 
 
 // Atlaskit Packages
@@ -136,7 +136,7 @@ class AllSections extends Component {
   handleCountryChange = value => {
     const data = (value).map(x => x['value']).join(",");
     this.setState({ countryValue: value, pageNum: 1 }, () => {
-      this.applyFilter({ test_id: data, page_num: 1 });
+      this.applyFilter({ exchange_country: data, page_num: 1 });
     });
   };
 
@@ -425,14 +425,16 @@ class AllSections extends Component {
 
 function mapStateToProps(store) {
   return {
-    ...store.section,
+    // ...store.section,
   };
 }
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...section, ...flag }, dispatch)
+    actions: bindActionCreators({ 
+      // ...section, 
+      ...flag }, dispatch)
   };
 }
 

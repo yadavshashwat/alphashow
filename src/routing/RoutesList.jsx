@@ -2,14 +2,17 @@
 
 // Pages import
 
-import AllSections from "../pages/AllSections";
+// import AllSections from "../pages/AllSections";
 import Exchanges from "../pages/Exchanges";
 import Companies from "../pages/Companies";
+import Indexes from "../pages/Indexes";
 
 // icons import
-import MediaServicesSpreadsheetIcon from '@atlaskit/icon/glyph/media-services/spreadsheet';
-import WorldSmallIcon from '@atlaskit/icon/glyph/world-small';
+// import MediaServicesSpreadsheetIcon from '@atlaskit/icon/glyph/media-services/spreadsheet';
+import MarketplaceIcon from '@atlaskit/icon/glyph/marketplace';
 import OfficeBuildingFilledIcon from '@atlaskit/icon/glyph/office-building-filled';
+import BacklogIcon from '@atlaskit/icon/glyph/backlog';
+
 const basePath = ""
 
 const Routes = [
@@ -20,11 +23,11 @@ const Routes = [
     viewLevel:1,
     redirect:false,
     navbarDisplayName: "Exchanges",
-    navbarIcon:WorldSmallIcon
+    navbarIcon:MarketplaceIcon
   },
   {
     path:  basePath +  "/companies/",
-    component: Exchanges,
+    component: Companies,
     pageType:"dashboard",
     viewLevel:1,
     redirect:false,
@@ -32,14 +35,23 @@ const Routes = [
     navbarIcon:OfficeBuildingFilledIcon
   },
   {
-    path:  basePath +  "/sections/",
-    component: AllSections,
+    path:  basePath +  "/indexes/",
+    component: Indexes,
     pageType:"dashboard",
     viewLevel:1,
     redirect:false,
-    navbarDisplayName: "All Sections",
-    navbarIcon:MediaServicesSpreadsheetIcon
+    navbarDisplayName: "indexes",
+    navbarIcon:BacklogIcon
   },
+  // {
+  //   path:  basePath +  "/sections/",
+  //   component: AllSections,
+  //   pageType:"dashboard",
+  //   viewLevel:1,
+  //   redirect:false,
+  //   navbarDisplayName: "All Sections",
+  //   navbarIcon:MediaServicesSpreadsheetIcon
+  // },
 
   // { redirect: true, path:  basePath +  "/adminpanel", to: "/adminpanel/home" }
 ];

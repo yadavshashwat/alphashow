@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 // Redux dispatch
 import { bindActionCreators } from "redux";
 import flag from "../redux/actions/flag";
-import section from "../redux/actions/section";
+// import section from "../redux/actions/section";
 
 
 // Atlaskit Packages
@@ -48,16 +48,7 @@ const itemOptions = [
   {'value':50,'label':'50 Items/Page'},
   {'value':100,'label':'100 Items/Page'}
 ]
-function titleCase(str) {
-  var splitStr = str.toLowerCase().split(' ');
-  for (var i = 0; i < splitStr.length; i++) {
-      // You do not need to check if i is larger than splitStr length, as your for does that for you
-      // Assign it back to the array
-      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
-  }
-  // Directly return the joined string
-  return splitStr.join(' '); 
-}
+
 
 class AllCompanies extends Component {
   constructor(props) {
@@ -172,7 +163,7 @@ class AllCompanies extends Component {
   handleExchangeChange = value => {
     const data = (value).map(x => x['value']).join(",");
     this.setState({ exchangeValue: value, pageNum: 1 }, () => {
-      this.applyFilter({ test_id: data, page_num: 1 });
+      this.applyFilter({ exchange: data, page_num: 1 });
     });
   };
 
@@ -302,7 +293,7 @@ class AllCompanies extends Component {
 
         {
           key: row.id,
-          content: titleCase(row.name)
+          content: changeCase.titleCase(row.name)
         },
         {
           key: row.id,
@@ -449,14 +440,16 @@ class AllCompanies extends Component {
 
 function mapStateToProps(store) {
   return {
-    ...store.section,
+    // ...store.section,
   };
 }
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...section, ...flag }, dispatch)
+    actions: bindActionCreators({ 
+      // ...section, 
+      ...flag }, dispatch)
   };
 }
 
