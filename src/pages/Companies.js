@@ -1,10 +1,11 @@
 // React
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 // Styles
 import "../css/dashboard.css"
 
 // Backend Connection
-import { api } from "../helpers/api.js";
+import { api_get } from "../helpers/api.js";
 // Redux 
 import { connect } from "react-redux";
 
@@ -23,6 +24,7 @@ import { Grid, GridColumn } from '@atlaskit/page';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Lozenge from '@atlaskit/lozenge';
 import DynamicTable from '@atlaskit/dynamic-table';
+import Button from '@atlaskit/button';
 
 //Icons
 import ArrowDownCircleIcon from '@atlaskit/icon/glyph/arrow-down-circle';
@@ -100,7 +102,7 @@ class AllCompanies extends Component {
     };
     let payload = Object.assign({}, payloadData, obj);
     // console.log(payload, "Payload");
-    api(url, payload)
+    api_get(url, payload)
       .then(response => {
         const { result, status, num_pages, total_records } = response;
         if (status) {
@@ -171,7 +173,7 @@ class AllCompanies extends Component {
   // On Load
   componentDidMount() {
   
-    api(url, { operation: "read", page_num: this.state.pageNum, page_size: this.state.pageSize.value}).then(response => {
+    api_get(url, { operation: "read", page_num: this.state.pageNum, page_size: this.state.pageSize.value}).then(response => {
       const { result, filter, status, num_pages, total_records } = response;
       
       if (status) {
@@ -243,7 +245,7 @@ class AllCompanies extends Component {
         {
           key: "name",
           content: "Name",
-          width: 30,
+          width: 25,
           isSortable: false,
           shouldTruncate: false
         },
@@ -254,13 +256,13 @@ class AllCompanies extends Component {
           isSortable: false,
           shouldTruncate: false
         },
-        {
-          key: "exchanges",
-          content: "Exchanges",
-          width: 10,
-          isSortable: false,
-          shouldTruncate: false
-        },
+        // {
+        //   key: "exchanges",
+        //   content: "Exchanges",
+        //   width: 10,
+        //   isSortable: false,
+        //   shouldTruncate: false
+        // },
         {
           key: "ticker",
           content: "Ticker",
@@ -271,7 +273,7 @@ class AllCompanies extends Component {
         {
           key: "price_date_range",
           content: "Price Date Range",
-          width: 20,
+          width: 25,
           isSortable: false,
           shouldTruncate: false
         },
@@ -282,6 +284,13 @@ class AllCompanies extends Component {
           isSortable: false,
           shouldTruncate: false
         },
+        {
+          key: "operations row",
+          content: "",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        }
 
       ]
     }
@@ -299,13 +308,13 @@ class AllCompanies extends Component {
           key: row.id,
           content: row.isin_no
         },
+        // {
+        //   key: row.id,
+        //   content: row.is_listed_nse ? <Lozenge appearance="inprogress">NSE</Lozenge> : ""
+        // },
         {
           key: row.id,
-          content: row.is_listed_nse ? <Lozenge appearance="inprogress">NSE</Lozenge> : ""
-        },
-        {
-          key: row.id,
-        content: row.is_listed_nse ? <div class="lozenge-exchange">NSE:<div class="lozenge-ticker">{row.nse_ticker}</div></div> : ""
+        content: row.is_listed_nse ? <div className="tickerDetailLozenge"><Lozenge isBold appearance={"new"}>&nbsp;&nbsp;NSE&nbsp;&nbsp;</Lozenge><Lozenge appearance={"new"}>&nbsp;&nbsp;{row.nse_ticker}&nbsp;&nbsp;</Lozenge></div> : ""
         },
         {
           key: row.id,
@@ -314,6 +323,10 @@ class AllCompanies extends Component {
         {
           key: row.id,
           content: row.nse_return_update_date
+        },
+        {
+          key: row.id,
+          content: <Link to={'/companies/' + row.isin_no + '/'}><Button data-id={row.id}>Open</Button></Link>
         },
       ]
     }
@@ -383,7 +396,7 @@ class AllCompanies extends Component {
           <DataWrapper>
             <div className="question-bank-summary">
               <div className="question-bank-summary-text">
-                  Total: 
+                  <b>Total:&nbsp; </b>
                 <span className="number-selected">
                   {((this.state.totalRecords === this.state.filteredRecords) ? this.state.totalRecords : this.state.filteredRecords + '/' + this.state.totalRecords)}
                 </span>

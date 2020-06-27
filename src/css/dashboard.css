@@ -112,5 +112,18 @@ ul.pagination {
     margin-top: 46px;
 }
 
+.tickerDetailLozenge{
+    display:inline-flex;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px;
 
+}
 
+.button-row{
+    display: inline-flex;
+}
+
+.button-row .time-button{
+    margin: 2px;
+}

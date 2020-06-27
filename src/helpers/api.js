@@ -5,7 +5,18 @@ let baseurl = null;
 baseurl = "http://finance.shashwatyadav.com/api/";
 
 
-export function api(url, filters) {
+export function api_get(url, filters) {
+    var url_send = baseurl + url + '?'
+    for (const key in filters) {
+        // console.log(key)
+        // console.log(filters[key])
+        url_send = url_send + key + '=' + filters[key] + '&'
+        // bodyFormData.set(key, value);
+    }
+    return axios.get(url_send).then(response => response.data)
+}
+
+export function api_post(url, filters) {
     var bodyFormData = new FormData();
     for (const key in filters) {
         let value = filters[key]

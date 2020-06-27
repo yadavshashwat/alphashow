@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import "../css/dashboard.css"
 
 // Backend Connection
-import { api } from "../helpers/api.js";
+import { api_get } from "../helpers/api.js";
 // Redux 
 import { connect } from "react-redux";
 
@@ -99,7 +99,7 @@ class Indexes extends Component {
     };
     let payload = Object.assign({}, payloadData, obj);
     // console.log(payload, "Payload");
-    api(url, payload)
+    api_get(url, payload)
       .then(response => {
         const { result, status, num_pages, total_records } = response;
         if (status) {
@@ -167,7 +167,7 @@ class Indexes extends Component {
   // On Load
   componentDidMount() {
   
-    api(url, { operation: "read", page_num: this.state.pageNum, page_size: this.state.pageSize.value}).then(response => {
+    api_get(url, { operation: "read", page_num: this.state.pageNum, page_size: this.state.pageSize.value}).then(response => {
       const { result, filter, status, num_pages, total_records } = response;
       
       if (status) {
@@ -367,7 +367,7 @@ class Indexes extends Component {
           <DataWrapper>
             <div className="question-bank-summary">
               <div className="question-bank-summary-text">
-                  Total: 
+                <b>Total:&nbsp; </b>
                 <span className="number-selected">
                   {((this.state.totalRecords === this.state.filteredRecords) ? this.state.totalRecords : this.state.filteredRecords + '/' + this.state.totalRecords)}
                 </span>

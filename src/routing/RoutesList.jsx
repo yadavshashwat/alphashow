@@ -5,6 +5,7 @@
 // import AllSections from "../pages/AllSections";
 import Exchanges from "../pages/Exchanges";
 import Companies from "../pages/Companies";
+import IndividualCompany from "../pages/IndividualCompany";
 import Indexes from "../pages/Indexes";
 
 // icons import
@@ -30,6 +31,15 @@ const Routes = [
     component: Companies,
     pageType:"dashboard",
     viewLevel:1,
+    redirect:false,
+    navbarDisplayName: "Companies",
+    navbarIcon:OfficeBuildingFilledIcon
+  },
+  {
+    path:  basePath +  "/companies/:company",
+    component: IndividualCompany,
+    pageType:"dashboard",
+    viewLevel:2,
     redirect:false,
     navbarDisplayName: "Companies",
     navbarIcon:OfficeBuildingFilledIcon

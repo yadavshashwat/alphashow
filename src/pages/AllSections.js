@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import "../css/dashboard.css"
 
 // Backend Connection
-import { api } from "../helpers/api.js";
+import { api_get } from "../helpers/api.js";
 // Redux 
 import { connect } from "react-redux";
 
@@ -207,7 +207,7 @@ class AllSections extends Component {
     };
     let payload = Object.assign({}, payloadData, obj);
     // console.log(payload, "Payload");
-    api(url, payload)
+    api_get(url, payload)
       .then(response => {
         const { result, status, num_pages, total_records } = response;
         if (status) {
@@ -412,7 +412,7 @@ class AllSections extends Component {
     const dataId = event.currentTarget.dataset.id;
     const isComplete = event.currentTarget.dataset.complete;
     // console.log(event.currentTarget.dataset)
-    api(url, { operation: "complete", section_ids: dataId, is_complete: isComplete==="true" ? '0' : '1' }).then(response => {
+    api_get(url, { operation: "complete", section_ids: dataId, is_complete: isComplete==="true" ? '0' : '1' }).then(response => {
       const { message, status, result } = response;
       this.props.actions.addFlag({
         message: message,
