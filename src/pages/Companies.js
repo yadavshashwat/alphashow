@@ -245,7 +245,7 @@ class AllCompanies extends Component {
         {
           key: "name",
           content: "Name",
-          width: 25,
+          width: 15,
           isSortable: false,
           shouldTruncate: false
         },
@@ -256,31 +256,45 @@ class AllCompanies extends Component {
           isSortable: false,
           shouldTruncate: false
         },
-        // {
-        //   key: "exchanges",
-        //   content: "Exchanges",
-        //   width: 10,
-        //   isSortable: false,
-        //   shouldTruncate: false
-        // },
         {
           key: "ticker",
           content: "Ticker",
-          width: 20,
+          width: 15,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "price_date_range",
-          content: "Price Date Range",
-          width: 25,
+          key: "return_1d",
+          content: "1 Day Return",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "annualized_return",
+          content: "Average Return",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "annualized_volatility",
+          content: "Volatility",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "volume",
+          content: "Volume",
+          width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
           key: "return_update_date",
-          content: "Return Update Date",
-          width: 10,
+          content: "Return Date",
+          width: 15,
           isSortable: false,
           shouldTruncate: false
         },
@@ -308,21 +322,29 @@ class AllCompanies extends Component {
           key: row.id,
           content: row.isin_no
         },
-        // {
-        //   key: row.id,
-        //   content: row.is_listed_nse ? <Lozenge appearance="inprogress">NSE</Lozenge> : ""
-        // },
         {
           key: row.id,
         content: row.is_listed_nse ? <div className="tickerDetailLozenge"><Lozenge isBold appearance={"new"}>&nbsp;&nbsp;NSE&nbsp;&nbsp;</Lozenge><Lozenge appearance={"new"}>&nbsp;&nbsp;{row.nse_ticker}&nbsp;&nbsp;</Lozenge></div> : ""
         },
         {
           key: row.id,
-          content: row.is_listed_nse ? 'NSE: ' + row.min_nse_ticker_date + " - " +row.last_nse_ticker_date : ""
+          content: (Math.round(row.nse_return_1d * 10000)/100) + "%"
         },
         {
           key: row.id,
-          content: row.nse_return_update_date
+          content: (Math.round(row.nse_annualized_return * 10000)/100) + "%"
+        },
+        {
+          key: row.id,
+          content: (Math.round(row.nse_annualized_vol * 10000)/100) + "%"
+        },
+        {
+          key: row.id,
+          content: (Math.round(row.nse_volume * 100)/100)
+        },
+        {
+          key: row.id,
+          content: row.nse_return_date
         },
         {
           key: row.id,

@@ -212,9 +212,12 @@ class IndividualCompany extends Component {
         {renderTickerDetailsNSE}
       </Grid>
       <Grid spacing="compact">
+        NSE -  H: {(Math.round(this.state.companyData.nse_price_high) * 100)/100} L: {(Math.round(this.state.companyData.nse_price_low) * 100)/100} O: {(Math.round(this.state.companyData.nse_price_open) * 100)/100} C: {(Math.round(this.state.companyData.nse_price_close) * 100)/100} AC: {(Math.round(this.state.companyData.nse_price_close_adjusted) * 100)/100} Vol: {(Math.round(this.state.companyData.nse_volume) * 100)/100}
+      </Grid>
+      <Grid spacing="compact">
         <GridColumn medium={12}>
         {renderPriceGraph}
-          <div className='button-row'>
+          <div classsName='button-row'>
             <div  className="time-button"><Button isSelected={this.state.dateRangeSelected=="max"} onClick={() => this.handleDateOnClick("max")} >Max</Button></div>
             <div  className="time-button"><Button isSelected={this.state.dateRangeSelected=="1250"} onClick={() => this.handleDateOnClick("1250")}>5 Year</Button></div>
             <div  className="time-button"><Button isSelected={this.state.dateRangeSelected=="250"} onClick={() => this.handleDateOnClick("250")}>1 Year</Button></div>
@@ -224,6 +227,27 @@ class IndividualCompany extends Component {
             <div  className="time-button"><Button isSelected={this.state.dateRangeSelected=="7"} onClick={() => this.handleDateOnClick("7")}>7 Days</Button></div>
           </div>
           </GridColumn>
+      </Grid>
+      <Grid>
+        
+        
+        <GridColumn medium={6}>
+          <br></br>
+          <h3>NSE</h3>
+          <table>
+            <tr>
+              <td className="company-detail">Yesterday Return</td><td>{Math.round(this.state.companyData.nse_return_1d*10000)/100 + "%"}</td>
+            </tr><tr>
+              <td className="company-detail">1 Month Return</td><td>{Math.round(this.state.companyData.nse_return_1m*10000)/100 + "%"} </td>
+            </tr><tr>  
+              <td className="company-detail">1 Year Return</td><td>{Math.round(this.state.companyData.nse_return_1y*10000)/100 + "%"} </td>
+            </tr><tr>  
+              <td className="company-detail">Annualized Avg. Daily Return</td><td>{Math.round(this.state.companyData.nse_annualized_return*10000)/100 + "%"} </td>
+            </tr><tr>
+              <td className="company-detail">Annualized Volatility (Risk)</td><td>{Math.round(this.state.companyData.nse_annualized_vol*100000)/100 + "%"} </td>
+            </tr>
+          </table>
+        </GridColumn>
       </Grid>
       </ContentWrapper>
 

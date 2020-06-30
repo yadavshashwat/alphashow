@@ -1,5 +1,6 @@
 // React
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 // Styles
 import "../css/dashboard.css"
 
@@ -23,6 +24,7 @@ import { Grid, GridColumn } from '@atlaskit/page';
 import { BreadcrumbsStateless, BreadcrumbsItem } from '@atlaskit/breadcrumbs';
 import Lozenge from '@atlaskit/lozenge';
 import DynamicTable from '@atlaskit/dynamic-table';
+import Button from '@atlaskit/button';
 
 //Icons
 import ArrowDownCircleIcon from '@atlaskit/icon/glyph/arrow-down-circle';
@@ -239,38 +241,59 @@ class Indexes extends Component {
         {
           key: "name",
           content: "Name",
-          width: 30,
+          width: 25,
           isSortable: false,
           shouldTruncate: false
         },
         {
           key: "code",
           content: "Code",
-          width: 20,
+          width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
           key: "exchange",
           content: "Exchange",
-          width: 20,
+          width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "price_date_range",
-          content: "Price Date Range",
-          width: 20,
+          key: "return_1d",
+          content: "1 Day Return",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "annualized_return",
+          content: "Average Return",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        },
+        {
+          key: "annualized_volatility",
+          content: "Volatility",
+          width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
           key: "return_update_date",
-          content: "Return Update Date",
-          width: 10,
+          content: "Return Date",
+          width: 15,
           isSortable: false,
           shouldTruncate: false
         },
+        {
+          key: "operations row",
+          content: "",
+          width: 10,
+          isSortable: false,
+          shouldTruncate: false
+        }
       ]
     }
 
@@ -292,13 +315,24 @@ class Indexes extends Component {
         },
         {
           key: row.id,
-          content: 'NSE: ' + row.min_ticker_date + " - " +row.last_ticker_date 
+          content: (Math.round(row.return_1d * 10000)/100) + "%"
         },
         {
           key: row.id,
-          content: row.return_update_date
+          content: (Math.round(row.annualized_return * 10000)/100) + "%"
         },
-
+        {
+          key: row.id,
+          content: (Math.round(row.annualized_vol * 10000)/100) + "%"
+        },
+        {
+          key: row.id,
+          content: row.return_date
+        },
+        {
+          key: row.id,
+          content: <Link to={'/indexes/' + row.ticker + '/'}><Button data-id={row.id}>Open</Button></Link>
+        },
       ]
     }
     ));
