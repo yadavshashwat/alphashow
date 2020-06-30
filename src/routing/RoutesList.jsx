@@ -63,7 +63,7 @@ const Routes = [
   //   navbarIcon:MediaServicesSpreadsheetIcon
   // },
 
-  // { redirect: true, path:  basePath +  "/adminpanel", to: "/adminpanel/home" }
+  // { redirect: true, path:  basePath +  "/", to: basePath +"/companies/" }
 ];
 
 export default Routes;
