@@ -31,33 +31,43 @@ import ContentWrapper from '../components/ContentWrapper';
 var changeCase = require("change-case");
 
 // api url path
-var url = "/crud_company_prices/";
+var url = "/crud_index_prices/";
 
 
 
-var emptyCompanyData = {
-  id: 0,
+var emptyIndexData = {
+  id: 1,
   name: "",
-  isin_no: "",
-  is_listed_nse: true,
-  nse_ticker: "",
-  industry_sector: null,
-  nse_tracker: true,
-  nse_price_update_db_date: "",
-  nse_return_update_date: "",
+  ticker: "",
+  exchange: "",
   created_at: "",
-  modified_at: ""
+  modified_at: "",
+  return_date: "",
+  return_1d: 0,
+  return_1m: 0,
+  return_1y: 0,
+  annualized_return: 0,
+  annualized_vol: 0,
+  trade_date: "",
+  price_high: 0,
+  price_low: 0,
+  price_close: 0,
+  price_open: 0,
+  price_close_adjusted: 0,
+  volume: 0,
+  price_update_date: "",
+  return_update_date: ""
   }
 
-class IndividualCompany extends Component {
+class IndividualIndex extends Component {
   constructor(props) {
     super(props);
     this.state = {
       pricingData: [],
       filteredPricingData: [],
-      companyData:emptyCompanyData,
+      indexData:emptyIndexData,
       returnData:{},
-      isinNum:"",
+      ticker:"",
       // pagination variables
       loaded: false,
       // filter variables
@@ -96,23 +106,22 @@ class IndividualCompany extends Component {
     var Path = window.location.pathname.split("/")
     // this.props.actions.setEmptyEditTest({});
     // this.props.actions.setEmptyEditSection({});
-    var isinNum = null;
+    var ticker = null;
     
-    isinNum = decodeURIComponent(Path[2])
+    ticker = decodeURIComponent(Path[2])
     // console.log(isinNum)
-    this.setState({isinNum:isinNum})
+    this.setState({ticker:ticker})
 
-    api_get(url, { operation: "read",isin:isinNum}).then(response => {
+    api_get(url, { operation: "read",ticker:ticker}).then(response => {
       const { result,  status} = response;
       
       if (status) {
         this.setState(
           {
-            companyData:result['company'],
+            indexData:result['index'],
             pricingData : result['prices'],
             filteredPricingData : result['prices'],
-            loaded: true,
-            // countryOptions: filter.exchange_country,
+            loaded: true
           }
         );
       }
@@ -120,8 +129,6 @@ class IndividualCompany extends Component {
   }
 
   render() {
-    // const caption = "User Lists";
-
     let breadCrumbElement = null
     var Path = window.location.pathname.split("/")
     var textPath = null;
@@ -129,9 +136,9 @@ class IndividualCompany extends Component {
       if (index > 0 && index < (Path.length - 1)) {
         var link = (Path.slice(0, index + 1).join("/")) + "/"
         if (row == this.state.isinNum){
-          textPath = changeCase.titleCase(this.state.companyData.name)
+          textPath = changeCase.upperCase(this.state.indexData.name)
         }else{
-          textPath = changeCase.titleCase(Path[index])
+          textPath = changeCase.upperCase(Path[index])
         }
         
         // console.log(link)
@@ -147,7 +154,7 @@ class IndividualCompany extends Component {
     );
 
     let renderTickerDetailsNSE = null;
-    renderTickerDetailsNSE = this.state.companyData.is_listed_nse ? <GridColumn medium={2}><div className="tickerDetailLozenge"><Lozenge isBold appearance={"new"}>&nbsp;&nbsp;NSE&nbsp;&nbsp;</Lozenge><Lozenge appearance={"new"}>&nbsp;&nbsp;{this.state.companyData.nse_ticker}&nbsp;&nbsp;</Lozenge></div></GridColumn> : "";
+    renderTickerDetailsNSE = this.state.indexData.is_listed_nse ? <GridColumn medium={2}><div className="tickerDetailLozenge"><Lozenge isBold appearance={"new"}>&nbsp;&nbsp;NSE&nbsp;&nbsp;</Lozenge><Lozenge appearance={"new"}>&nbsp;&nbsp;{this.state.indexData.ticker}&nbsp;&nbsp;</Lozenge></div></GridColumn> : "";
       
 
     // let pricingData = this.state.pricingData
@@ -161,7 +168,7 @@ class IndividualCompany extends Component {
                           <YAxis />
                           <Tooltip />
                           <Legend iconSize={14} iconType="plainline"/>
-                          <Line type="monotone" dataKey="Price NSE" stroke="#8884d8" dot={false}/>
+                          <Line type="monotone" dataKey="Price" stroke="#8884d8" dot={false}/>
                       </LineChart>
                       
 
@@ -173,14 +180,14 @@ class IndividualCompany extends Component {
       <br></br>
       <Grid spacing="compact">
         <GridColumn>
-          <h2>{changeCase.titleCase(this.state.companyData.name)}</h2>
+          <h2>{changeCase.titleCase(this.state.indexData.name)}</h2>
         </GridColumn>
       </Grid>
       <Grid spacing="compact">
         {renderTickerDetailsNSE}
       </Grid>
       <Grid spacing="compact">
-        NSE -  H: {(Math.round(this.state.companyData.nse_price_high) * 100)/100} L: {(Math.round(this.state.companyData.nse_price_low) * 100)/100} O: {(Math.round(this.state.companyData.nse_price_open) * 100)/100} C: {(Math.round(this.state.companyData.nse_price_close) * 100)/100} AC: {(Math.round(this.state.companyData.nse_price_close_adjusted) * 100)/100} Vol: {(Math.round(this.state.companyData.nse_volume) * 100)/100}
+        NSE -  H: {(Math.round(this.state.indexData.price_high) * 100)/100} L: {(Math.round(this.state.indexData.price_low) * 100)/100} O: {(Math.round(this.state.indexData.price_open) * 100)/100} C: {(Math.round(this.state.indexData.price_close) * 100)/100} AC: {(Math.round(this.state.indexData.price_close_adjusted) * 100)/100} Vol: {(Math.round(this.state.indexData.volume) * 100)/100}
       </Grid>
       <Grid spacing="compact">
         <GridColumn medium={12}>
@@ -201,18 +208,18 @@ class IndividualCompany extends Component {
         
         <GridColumn medium={6}>
           <br></br>
-          <h3>NSE</h3>
+          <h3>Return Details</h3>
           <table>
             <tr>
-              <td className="company-detail">Yesterday Return</td><td>{Math.round(this.state.companyData.nse_return_1d*10000)/100 + "%"}</td>
+              <td className="company-detail">Yesterday Return</td><td>{Math.round(this.state.indexData.return_1d*10000)/100 + "%"}</td>
             </tr><tr>
-              <td className="company-detail">1 Month Return</td><td>{Math.round(this.state.companyData.nse_return_1m*10000)/100 + "%"} </td>
+              <td className="company-detail">1 Month Return</td><td>{Math.round(this.state.indexData.return_1m*10000)/100 + "%"} </td>
             </tr><tr>  
-              <td className="company-detail">1 Year Return</td><td>{Math.round(this.state.companyData.nse_return_1y*10000)/100 + "%"} </td>
+              <td className="company-detail">1 Year Return</td><td>{Math.round(this.state.indexData.return_1y*10000)/100 + "%"} </td>
             </tr><tr>  
-              <td className="company-detail">Annualized Avg. Daily Return</td><td>{Math.round(this.state.companyData.nse_annualized_return*10000)/100 + "%"} </td>
+              <td className="company-detail">Annualized Avg. Daily Return</td><td>{Math.round(this.state.indexData.annualized_return*10000)/100 + "%"} </td>
             </tr><tr>
-              <td className="company-detail">Annualized Volatility (Risk)</td><td>{Math.round(this.state.companyData.nse_annualized_vol*100000)/100 + "%"} </td>
+              <td className="company-detail">Annualized Volatility (Risk)</td><td>{Math.round(this.state.indexData.annualized_vol*100000)/100 + "%"} </td>
             </tr>
           </table>
         </GridColumn>
@@ -241,4 +248,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(IndividualCompany);
+)(IndividualIndex);

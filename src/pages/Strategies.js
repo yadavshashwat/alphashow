@@ -40,7 +40,7 @@ import styled from "styled-components";
 var changeCase = require("change-case");
 
 // api url path
-var url = "/crud_index/";
+var url = "/read_strategies/";
 
 
 const itemOptions = [
@@ -97,7 +97,7 @@ class Indexes extends Component {
       search: this.state.searchValue,
       page_num: 1,
       page_size: this.state.pageSize.value,
-      exchange: (this.state.exchangeValue).map(x => x['value']).join(","),
+      // exchange: (this.state.exchangeValue).map(x => x['value']).join(","),
     };
     let payload = Object.assign({}, payloadData, obj);
     // console.log(payload, "Payload");
@@ -135,12 +135,12 @@ class Indexes extends Component {
   };
 
 
-  handleExchangeChange = value => {
-    const data = (value).map(x => x['value']).join(",");
-    this.setState({ exchangeValue: value, pageNum: 1 }, () => {
-      this.applyFilter({ exchange: data, page_num: 1 });
-    });
-  };
+  // handleExchangeChange = value => {
+  //   const data = (value).map(x => x['value']).join(",");
+  //   this.setState({ exchangeValue: value, pageNum: 1 }, () => {
+  //     this.applyFilter({ exchange: data, page_num: 1 });
+  //   });
+  // };
 
   handleNumItemsChange = value => {
     this.setState({ pageSize: value ? value: "" , pageNum: 1 }, () => {
@@ -182,7 +182,7 @@ class Indexes extends Component {
             numPages: num_pages,
             sortByOptions: filter.sort_by,
             orderByOptions: filter.order_by,
-            countryOptions: filter.exchange_country,
+            // countryOptions: filter.exchange_country,
           }
         );
       }
@@ -241,56 +241,49 @@ class Indexes extends Component {
         {
           key: "name",
           content: "Name",
-          width: 15,
+          width: 20,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "code",
-          content: "Code",
+          key: "alfa",
+          content: "Alfa",
           width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "exchange",
-          content: "Exchange",
+          key: "beta",
+          content: "Beta",
           width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "return_1d",
-          content: "1 Day Return",
+          key: "sharpe_ratio",
+          content: "Sharpe Ratio",
           width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "annualized_return",
+          key: "average_return",
           content: "Average Return",
           width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "annualized_volatility",
+          key: "volatility",
           content: "Volatility",
           width: 10,
           isSortable: false,
           shouldTruncate: false
         },
         {
-          key: "volume",
-          content: "Volume",
-          width: 10,
-          isSortable: false,
-          shouldTruncate: false
-        },
-        {
-          key: "return_update_date",
-          content: "Return Date",
-          width: 15,
+          key: "date_range",
+          content: "Date Range",
+          width: 20,
           isSortable: false,
           shouldTruncate: false
         },
@@ -314,35 +307,31 @@ class Indexes extends Component {
         },
         {
           key: row.id,
-          content: row.ticker
+          content: (Math.round(row.alpha * 10000)/100) + "% | (" + (Math.round(row.alpha_significance * 1000)/1000) + ")" 
         },
         {
           key: row.id,
-          content: <Lozenge appearance="inprogress">{row.exchange}</Lozenge> 
+          content: (Math.round(row.beta * 100)/100) + " | (" + (Math.round(row.beta_significance * 1000)/1000) + ")" 
         },
         {
           key: row.id,
-          content: (Math.round(row.return_1d * 10000)/100) + "%"
+          content: (Math.round(row.sharpe_ratio * 100)/100) 
         },
         {
           key: row.id,
-          content: (Math.round(row.annualized_return * 10000)/100) + "%"
+          content: (Math.round(row.average_return * 10000)/100) + "%"
         },
         {
           key: row.id,
-          content: (Math.round(row.annualized_vol * 10000)/100) + "%"
+          content: (Math.round(row.volatility * 10000)/100) + "%"
         },
         {
           key: row.id,
-          content: (Math.round(row.volume * 100)/100)
+          content: row.historic_start_date + " - " + row.historic_end_date
         },
         {
           key: row.id,
-          content: row.return_date
-        },
-        {
-          key: row.id,
-          content: <Link to={'/indexes/' + row.ticker + '/'}><Button data-id={row.id}>Open</Button></Link>
+          content: <Link to={'/strategies/' + row.name + '/'}><Button data-id={row.id}>Open</Button></Link>
         },
       ]
     }

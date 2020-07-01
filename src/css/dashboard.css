@@ -121,9 +121,9 @@ ul.pagination {
 }
 
 .button-row{
-    display: inline-flex;
+    display: inline-flex !important;
 }
 
 .button-row .time-button{
-    margin: 2px;
+    margin: 2px !important;
 }
